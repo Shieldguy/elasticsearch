@@ -1,0 +1,17 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Java template
+*.class
+
+# Package Files #
+*.jar
+
+# Generated Directories
+logs/
+build/
+
+# IntelliJ project files
+.idea
+*.iml
+
+*~
+.DS_Store
