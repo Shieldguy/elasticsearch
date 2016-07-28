@@ -1,10 +1,15 @@
 package com.example;
 
+import org.elasticsearch.client.node.NodeClient;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.repository.ElasticsearchCrudRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.stereotype.Repository;
@@ -16,6 +21,9 @@ import javax.persistence.Id;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
+import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 
 @SpringBootApplication
 public class ElasticsearchApplication {
@@ -24,8 +32,7 @@ public class ElasticsearchApplication {
 	}
 }
 
-@Entity
-@Document(indexName = "mydata_idx")
+@Document(indexName = "data", type = "mydata")
 class MyData {
     @Id
     @GeneratedValue
@@ -81,8 +88,21 @@ class MyData {
     }
 }
 
+@Configuration
+class MyConfig {
+    @Bean
+    public ElasticsearchTemplate elasticsearchTemplate() {
+        return new ElasticsearchTemplate(getNodeClient());
+    }
+
+    private static NodeClient getNodeClient() {
+        return (NodeClient) nodeBuilder().clusterName(UUID.randomUUID().toString()).local(true).node()
+                .client();
+    }
+}
+
 @Repository
-interface MyDataRepository extends CrudRepository<MyData, Long> {
+interface MyDataRepository extends ElasticsearchCrudRepository<MyData, Long> {
 }
 
 @RestController
