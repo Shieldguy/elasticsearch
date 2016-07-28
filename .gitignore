@@ -8,10 +8,29 @@
 # Generated Directories
 logs/
 build/
+**/build
+**/lib
+classes/
+out/
 
 # IntelliJ project files
 .idea
+.idea/
 *.iml
+
+# Eclipse project files
+.settings/
+
+# Gradle Related
+.gradle/
+gradle/wrapper/
+gradlew
+gradlew.bat
 
 *~
 .DS_Store
+*.gz
+*.tar
+*.tgz
+*.pid
+
