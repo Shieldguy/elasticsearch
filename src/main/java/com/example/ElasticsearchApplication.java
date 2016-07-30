@@ -1,8 +1,14 @@
 package com.example;
 
+import org.elasticsearch.client.Client;
 import org.elasticsearch.client.node.NodeClient;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.collect.HppcMaps;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.transport.TransportAddress;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -88,18 +94,38 @@ class MyData {
     }
 }
 
+/*
 @Configuration
 class MyConfig {
+    @Value("${elasticsearch.hostname:192.168.0.88}")
+    private String  hostname;
+
+    @Value("${elasticsearch.port:9200}")
+    private Integer port;
+
+    @Value("${elasticsearch.clustername:elasticsearch}")
+    private String  clusterName;
+
     @Bean
     public ElasticsearchTemplate elasticsearchTemplate() {
-        return new ElasticsearchTemplate(getNodeClient());
+        //return new ElasticsearchTemplate(getNodeClient());
+        return new ElasticsearchTemplate(client());
     }
 
-    private static NodeClient getNodeClient() {
-        return (NodeClient) nodeBuilder().clusterName(UUID.randomUUID().toString()).local(true).node()
-                .client();
+    @Bean
+    public Client client(){
+        TransportClient client= new TransportClient();
+        TransportAddress address = new InetSocketTransportAddress(hostname, port);
+        client.addTransportAddress(address);
+        return client;
+    }
+
+    @Bean
+    public NodeClient getNodeClient() {
+        return (NodeClient) nodeBuilder().clusterName(clusterName).local(true).node().client();
     }
 }
+*/
 
 @Repository
 interface MyDataRepository extends ElasticsearchCrudRepository<MyData, Long> {

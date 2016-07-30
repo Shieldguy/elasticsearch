@@ -1,3 +1,10 @@
 spring:
   application:
     name: Elasticsearch_Test_Prj
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch
+      cluster-nodes: 192.168.0.88:9200
+      repositories:
+        enabled: true
+#    spring.data.elasticsearch.properties.*= # Additional properties used to configure the client.

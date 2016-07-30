@@ -12,6 +12,7 @@ build/
 **/lib
 classes/
 out/
+data/
 
 # IntelliJ project files
 .idea
