@@ -27,10 +27,11 @@ repositories {
 
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-data-jpa')
-	compile('org.springframework.boot:spring-boot-starter-data-rest')
 	compile('org.springframework.boot:spring-boot-starter-web')
-	compile('org.springframework.data:spring-data-elasticsearch')
+	compile('org.springframework.data:spring-data-elasticsearch:2.0.2.RELEASE')
+	//compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	//compile('org.springframework.boot:spring-boot-starter-data-rest')
+	//compile('org.elasticsearch:elasticsearch:2.3.4')
 	//runtime('com.h2database:h2')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
